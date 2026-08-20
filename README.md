@@ -13,7 +13,6 @@ The task consists of two main parts:
 
 # Part 1 — Proposed Larger Robotic Dog
 
-<img width="563" height="341" alt="image" src="https://github.com/user-attachments/assets/73be110e-7569-488e-bbbd-8a62d17eaf52" />
 
 ## Design Objective
 
@@ -334,6 +333,8 @@ ELSE:
 # Part 2 — Robotic Dog V2 Mechanical Assembly
 
 ## Overview
+
+<img width="563" height="341" alt="image" src="https://github.com/user-attachments/assets/4ed30cb9-b43a-4acc-a30a-2985d02fd63e" />
 
 The second part of the task was to assemble the provided robotic dog CAD components using **Onshape**.
 
