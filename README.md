@@ -336,6 +336,8 @@ ELSE:
 
 <img width="563" height="341" alt="image" src="https://github.com/user-attachments/assets/4ed30cb9-b43a-4acc-a30a-2985d02fd63e" />
 
+https://cad.onshape.com/documents/656a9da7c2f8ab7654c78345/w/6d374e7b9414a2acbe7f6daa/e/c3afc28a2117431c29dba934?renderMode=0&uiState=6a875b928aab1a2459e838b1
+
 The second part of the task was to assemble the provided robotic dog CAD components using **Onshape**.
 
 The current V2 design is larger than the previous/current robotic dog design and provides additional internal space for:
