@@ -1,100 +1,618 @@
-# Robotic-Dog-V2
-This repository documents the second version (V2) of the robotic dog design. This version was designed to be larger in size compared to the previous/current robotic dog design in the project,
+# Robotic Dog V2
 
-# Robotic Dog V2 — Mechanical Design Documentation
+## Project Overview
 
-## Overview
+This repository documents **Mission 5 – Robotic Dog Design and Assembly**.
 
-This repository documents the second version (V2) of the robotic dog design. This version was designed to be **larger in size** compared to the previous/current robotic dog design in the project, with the goals of:
+The task consists of two main parts:
 
-- Providing more internal space to fit the PCB, wiring, and controller without crowding.
-- Better airflow/space for component cooling and battery placement.
-- Improved stability during movement through a wider base and relatively longer legs.
-
-> **Note:** Exact dimensions (length/width/height in mm) live inside the SolidWorks (`.SLDPRT`) files themselves — it's best to fill these in after opening the files in SolidWorks or Onshape to confirm actual values rather than estimating them.
+1. Propose and document the design and algorithm of a **new robotic dog that is larger than the current robot**, including its mechanical design, motors, electronics, movement algorithm, and future improvements.
+2. Assemble the provided robotic dog components in **Onshape** and create an **Exploded View** showing how the components are assembled.
 
 ---
 
-## Bill of Materials (BOM)
+# Part 1 — Proposed Larger Robotic Dog
 
-| Part | File | Qty | Function |
-|---|---|---|---|
-| Main body structure | `BodyV2.SLDPRT` | 1 | Houses all electronic components (board, battery, wiring) and forms the robot's backbone |
-| Body cover | `BodyCoverV2.SLDPRT` | 1 | Closes the body from the top, protects internal components, and gives the final outer shape |
-| Left leg | `leftLeg.SLDPRT` | 2 (front & rear) | Leg assembly on the left side |
-| Right leg | `rightLeg.SLDPRT` | 2 (front & rear) | Leg assembly on the right side, mirrored from the left leg |
-| SG90 servo | `SG90 - Micro Servo 9g - Tower Pro` (×4 instances) | 4 | Hip joint actuator for each leg — 1 degree of freedom (1-DOF) per leg |
-| Cap screw | `B18.3.4M - 3 x 0.5 x 12 SBHCS` | per mounting point | Fastens legs to body and motors to frame (M3 × 12mm, Socket Button Head Cap Screw) |
+<img width="563" height="341" alt="image" src="https://github.com/user-attachments/assets/73be110e-7569-488e-bbbd-8a62d17eaf52" />
 
-**Total:** Body + Cover + 4 legs (2 left + 2 right) + 4 SG90 servos + M3×12 screw set.
+## Design Objective
+
+The goal of the future robotic dog is to create a larger and stronger version of the current prototype.
+
+The larger design should provide:
+
+* More internal space for electronics.
+* More space for the battery and power system.
+* Better cable management.
+* Increased mechanical strength.
+* Higher motor torque.
+* Better stability during walking.
+* Higher payload capacity.
+* More freedom to add sensors and autonomous navigation systems.
+
+The current CAD model is used as a reference, while the following design represents a **proposed future larger version**.
+
+---
+
+## Proposed Dimensions
+
+Possible initial dimensions for the larger robot are:
+
+| Component                  | Proposed Dimension |
+| -------------------------- | -----------------: |
+| Body length                |           35–45 cm |
+| Body width                 |           18–25 cm |
+| Body height                |           10–15 cm |
+| Leg length                 |           20–30 cm |
+| Number of legs             |                  4 |
+| Motors per leg             |                  2 |
+| Degrees of freedom per leg |              2 DOF |
+| Total motors               |                  8 |
+
+> These values are proposed design targets and are not the measured dimensions of the current CAD files. Final dimensions should be determined after calculating the robot weight, center of gravity, motor torque, and battery size.
+
+---
+
+# Mechanical Design
+
+## Main Body
+
+The body acts as the main structural frame of the robot.
+
+It should contain:
+
+* Main controller
+* Battery
+* Power distribution system
+* Servo controller
+* Sensors
+* Communication modules
+* Wiring
+
+The body should be lightweight but mechanically strong.
+
+Possible materials include:
+
+* PETG
+* ABS
+* Aluminum
+* Carbon-fiber reinforced materials
 
 ---
 
 ## Leg Design
 
-- Each leg has a single **SG90** servo mounted at the hip joint, giving each leg **1 degree of freedom (1-DOF)** — forward/backward swing motion only in this version.
-- The legs are designed as a mirrored pair (`leftLeg` / `rightLeg`), so the same base geometry is used on both sides with the direction mirrored, reducing the number of unique designs needed to just two parts instead of four.
-- The servo horn attaches directly to the leg joint via M3 screws, and the servo body sits inside a printed pocket within the leg structure itself to prevent rotation or vibration.
+The robot has four legs:
 
-## Body & Cover Design
+* Front Left
+* Front Right
+* Rear Left
+* Rear Right
 
-- `BodyV2` is the main load-bearing frame, and includes:
-  - Four mounting points for the servos (one per leg) at the four corners.
-  - Dedicated internal space for mounting the ESP32, electronic board, and battery.
-  - Wire-routing openings between the body and the motors to keep wiring clear of moving parts.
-- `BodyCoverV2` mounts on top of the body with M3×12 screws, forming the upper outer protection and giving the robot its final appearance.
+For the future larger design, each leg can use **2 Degrees of Freedom (2-DOF)**.
 
-## Actuators Used
+### Hip Joint
 
-**Tower Pro SG90 Micro Servo** (× 4, one motor per leg):
+The hip motor controls forward and backward movement of the leg.
 
-| Spec | Value |
-|---|---|
-| Weight | ~9 g |
-| Operating voltage | 4.8–6 V |
-| Torque | ~1.8 kg·cm @4.8V / ~2.5 kg·cm @6V |
-| Speed | ~0.1 sec/60° @4.8V |
-| Gear type | Plastic |
-| Rotation range | ~180° |
+### Knee Joint
 
-> The SG90 was chosen for its small size and weight, suitable for a medium–large design, with low cost that allows using 4 units without a major increase in overall cost or robot weight.
+The knee motor controls bending and extension of the leg.
 
----
+Therefore:
 
-## Assembly Steps
-
-1. Mount the four SG90 servos into their pockets inside `BodyV2` and secure them with M3 screws.
-2. Attach `leftLeg` and `rightLeg` to the servo horns at their four positions (front-left, front-right, rear-left, rear-right).
-3. Route the servo wires through the dedicated openings inside `BodyV2` toward the electronics compartment.
-4. Install the electronic board (ESP32 + circuit) and battery inside `BodyV2`.
-5. Close the body by mounting `BodyCoverV2` on top of `BodyV2` and securing it with M3×12 screws.
-
----
-
-## Next Step: Exploded View on Onshape
-
-After importing/uploading the six parts (`BodyV2`, `BodyCoverV2`, `leftLeg`, `rightLeg`, 4× `SG90`, screws) to your Onshape account:
-
-1. Create a new **Assembly** and insert all the parts into it.
-2. Mate the parts together using **Mates** (Fastened/Revolute depending on the connection type), following the same order as the assembly steps above.
-3. From the Assembly menu, select the **Exploded View** feature.
-4. Drag each part (or group of parts) away from its original position in a logical order (body in the center, legs spreading out to the sides, cover lifting upward, motors and screws shown separately).
-5. Save the Exploded View and export it as a PNG image to add to this file or upload to the same repository.
-
----
-
-## Suggested Repository Structure
-
+```text
+4 Legs × 2 Motors = 8 Servo Motors
 ```
-V2DogDesign/
-├── README.md                 
-├── cad/
+
+This configuration provides better control and walking ability than the current single-servo-per-leg prototype.
+
+---
+
+# Motor Selection
+
+## Current Robot
+
+The current V2 prototype uses:
+
+**4 × Tower Pro SG90 Micro Servo Motors**
+
+One servo is used for each leg.
+
+The SG90 is suitable for lightweight prototypes and educational robotic mechanisms.
+
+Official SG90 specifications include approximately:
+
+| Specification     | Value                           |
+| ----------------- | ------------------------------- |
+| Weight            | 9 g                             |
+| Operating voltage | 4.8 V                           |
+| Stall torque      | 1.8 kg·cm at 4.8 V              |
+| Gear type         | POM                             |
+| Size              | approximately 23 × 12.2 × 29 mm |
+
+---
+
+## Future Larger Robot
+
+The larger robotic dog will be heavier than the current prototype.
+
+Therefore, the SG90 should **not automatically be used for the larger design**.
+
+Higher-torque motors should be selected after calculating:
+
+* Robot total weight
+* Leg length
+* Required joint torque
+* Payload
+* Safety factor
+* Walking acceleration
+
+Metal-gear high-torque servo motors would be more suitable for the larger robot.
+
+The final motor model should be selected only after the required torque has been calculated.
+
+---
+
+# Electronics
+
+A possible electronic architecture for the larger robot includes:
+
+## Main Controller
+
+**ESP32**
+
+The ESP32 can provide:
+
+* Wi-Fi
+* Bluetooth
+* PWM control
+* Sensor communication
+* Remote control
+* Processing for basic walking algorithms
+
+---
+
+## Servo Controller
+
+Because the future design may use eight or more motors, a dedicated PWM controller can be used.
+
+Example:
+
+**PCA9685 16-Channel PWM Servo Driver**
+
+This allows multiple servo motors to be controlled without using a separate ESP32 PWM pin for every motor.
+
+---
+
+# Power System
+
+The servo motors should use a suitable external power supply rather than relying directly on the controller board.
+
+A possible power architecture is:
+
+```text
+Battery
+   ↓
+Voltage Regulator / BEC
+   ↓
+Servo Driver
+   ↓
+Servo Motors
+```
+
+The ESP32 and servo power system should share a common electrical ground.
+
+Battery voltage, regulator capacity, and wiring must be selected according to the final motor current requirements.
+
+---
+
+# Sensors
+
+The larger robot can later include:
+
+* IMU
+* Ultrasonic sensor
+* Camera
+* LiDAR
+* Force sensors
+* Distance sensors
+
+An IMU can help measure:
+
+* Robot orientation
+* Acceleration
+* Tilt
+* Balance
+
+---
+
+# Robot Walking Algorithm
+
+The robot walking algorithm coordinates the movement of the four legs.
+
+## Basic Algorithm
+
+```text
+START
+
+Initialize ESP32
+Initialize servo controller
+Initialize sensors
+
+Move all legs to standing position
+
+WHILE robot is powered:
+
+    Read sensor data
+    Check robot orientation
+
+    IF obstacle is detected:
+        Stop movement
+        Select a new direction
+
+    Lift Front Left Leg
+    Move Front Left Leg forward
+    Place Front Left Leg on the ground
+
+    Lift Rear Right Leg
+    Move Rear Right Leg forward
+    Place Rear Right Leg on the ground
+
+    Stabilize the robot
+
+    Lift Front Right Leg
+    Move Front Right Leg forward
+    Place Front Right Leg on the ground
+
+    Lift Rear Left Leg
+    Move Rear Left Leg forward
+    Place Rear Left Leg on the ground
+
+    Stabilize the robot
+
+    Repeat walking cycle
+
+END WHILE
+
+STOP
+```
+
+---
+
+# Balance Algorithm
+
+An IMU can continuously monitor the orientation of the robot.
+
+```text
+Read IMU data
+
+IF robot tilts left:
+    Adjust right-side legs
+
+IF robot tilts right:
+    Adjust left-side legs
+
+IF robot tilts forward:
+    Adjust rear legs
+
+IF robot tilts backward:
+    Adjust front legs
+```
+
+The goal is to keep the robot's center of gravity inside the support area created by the legs.
+
+---
+
+# Obstacle Avoidance Algorithm
+
+A distance sensor can be installed at the front of the robot.
+
+```text
+Measure distance
+
+IF distance > safe_distance:
+
+    Continue moving forward
+
+ELSE:
+
+    Stop
+
+    Measure left side
+    Measure right side
+
+    Select the direction with more free space
+
+    Turn toward the selected direction
+
+    Continue walking
+```
+
+---
+
+# Part 2 — Robotic Dog V2 Mechanical Assembly
+
+## Overview
+
+The second part of the task was to assemble the provided robotic dog CAD components using **Onshape**.
+
+The current V2 design is larger than the previous/current robotic dog design and provides additional internal space for:
+
+* Electronics
+* PCB
+* Wiring
+* Controller
+* Battery
+
+The increased body size can also improve component organization and mechanical stability.
+
+---
+
+# Bill of Materials — BOM
+
+| Part                | File                                |    Quantity | Function                                          |
+| ------------------- | ----------------------------------- | ----------: | ------------------------------------------------- |
+| Main body structure | `BodyV2.SLDPRT`                     |           1 | Main structural frame and electronics compartment |
+| Body cover          | `BodyCoverV2.SLDPRT`                |           1 | Protects and closes the robot body                |
+| Left leg            | `leftLeg.SLDPRT`                    |           2 | Front and rear left legs                          |
+| Right leg           | `rightLeg.SLDPRT`                   |           2 | Front and rear right legs                         |
+| SG90 servo          | `SG90 - Micro Servo 9g - Tower Pro` |           4 | Drives the four leg joints                        |
+| Servo Horn          | SG90 servo horn component           |           4 | Transfers servo rotation to the leg mechanism     |
+| Servo screw         | SG90 screw component                |           4 | Secures each servo horn                           |
+| Cap screw           | `B18.3.4M - 3 x 0.5 x 12 SBHCS`     | As required | Mechanical fastening                              |
+
+---
+
+# Current V2 Leg Design
+
+The current V2 robot uses:
+
+```text
+4 Legs
+4 SG90 Servo Motors
+1 Servo per Leg
+1-DOF per Leg
+```
+
+Each servo provides forward/backward rotational motion at the leg joint.
+
+The robot uses:
+
+* `leftLeg` for the left side.
+* `rightLeg` for the right side.
+
+The parts are mirrored to create the four leg positions.
+
+This reduces the number of unique CAD components required.
+
+---
+
+# Body and Cover Design
+
+## BodyV2
+
+`BodyV2` is the main structural frame.
+
+It provides:
+
+* Four servo mounting areas.
+* Internal electronics space.
+* Battery space.
+* Controller space.
+* Cable-routing space.
+* Structural support for all four legs.
+
+---
+
+## BodyCoverV2
+
+`BodyCoverV2` closes the upper section of the robot.
+
+Its functions include:
+
+* Protecting internal components.
+* Completing the external shape.
+* Preventing electronics from being exposed.
+* Providing additional structural rigidity.
+
+The cover is mechanically secured to the body using screws.
+
+---
+
+# SG90 Servo Motors
+
+The current assembly uses four SG90 micro servo motors.
+
+Each motor is installed near one leg joint.
+
+The servo horn is mounted on the servo output shaft and transfers rotational motion to the leg mechanism.
+
+The servo screw secures the horn to the servo shaft.
+
+---
+
+# Assembly Process
+
+The robotic dog was assembled in Onshape using the following procedure:
+
+1. Import the provided SolidWorks part files into Onshape.
+2. Create a new Assembly.
+3. Insert `BodyV2`.
+4. Use the body as the main reference component.
+5. Insert `BodyCoverV2`.
+6. Insert two `leftLeg` instances.
+7. Insert two `rightLeg` instances.
+8. Position the four legs at the four corners.
+9. Insert four SG90 servo motors.
+10. Position each servo inside its mounting location.
+11. Attach the servo horns to the four motors.
+12. Install the servo horn screws.
+13. Align the leg joints with the servo mechanisms.
+14. Install the required structural screws.
+15. Install the upper body cover.
+16. Check the complete mechanical assembly.
+
+---
+
+# Onshape Mates Used
+
+## Fastened Mate
+
+Fastened Mates were used for components that should remain fixed relative to each other.
+
+Examples include:
+
+* Servo motor to frame
+* Servo horn screw
+* Body components
+* Fixed mounting components
+
+---
+
+## Revolute Mate
+
+Revolute Mates were used at rotating joints.
+
+This allows rotation around a single joint axis while restricting other movement.
+
+They were useful for representing the rotational motion of the robot legs.
+
+---
+
+# Final Assembly
+
+The completed mechanical model includes:
+
+* Main body
+* Upper body cover
+* Four legs
+* Four SG90 servo motors
+* Four servo horns
+* Servo screws
+* Structural mounting components
+
+The final Onshape Assembly represents the mechanical structure of the V2 robotic dog.
+
+---
+
+# Exploded View Status
+
+The task also required an **Exploded View** showing the relationship between all components.
+
+The Exploded View feature in Onshape was opened and an attempt was made to create the required exploded assembly.
+
+However, I was **not able to complete the Exploded View correctly**, because I had difficulty separating and arranging all of the components using the Onshape Exploded View tools.
+
+Therefore:
+
+**The complete mechanical Assembly was successfully created, while the Exploded View remains incomplete.**
+
+The completed assembly and available CAD files are included in this repository.
+
+---
+
+# Intended Exploded View Arrangement
+
+The intended Exploded View should approximately separate the components as follows:
+
+```text
+                    Body Cover
+
+        Servo                    Servo
+
+     Horn / Screw             Horn / Screw
+
+
+Left Leg                          Right Leg
+
+
+                    BodyV2
+
+
+Left Leg                          Right Leg
+
+
+        Servo                    Servo
+
+     Horn / Screw             Horn / Screw
+```
+
+This arrangement would clearly demonstrate how the main components are connected.
+
+---
+
+# Future Improvements
+
+Future improvements could include:
+
+* Complete the Onshape Exploded View.
+* Increase the robot's physical dimensions.
+* Replace SG90 motors with higher-torque motors for a larger version.
+* Increase each leg from 1-DOF to 2-DOF or more.
+* Add an IMU for balance control.
+* Add obstacle detection.
+* Add autonomous walking.
+* Add a camera or LiDAR.
+* Improve cable management.
+* Perform mechanical stress analysis.
+* Calculate required motor torque before selecting the final actuators.
+* Design custom 3D-printable parts.
+* Simulate leg movement before manufacturing.
+
+---
+
+# Suggested Repository Structure
+
+```text
+Robotic-Dog-V2/
+│
+├── README.md
+│
+├── CAD/
 │   ├── BodyV2.SLDPRT
 │   ├── BodyCoverV2.SLDPRT
 │   ├── leftLeg.SLDPRT
 │   ├── rightLeg.SLDPRT
-│   ├── SG90.SLDPRT
-│   └── screws/
-└── exploded-view/
-    └── exploded_view.png      ← the image exported from Onshape
+│   ├── SG90/
+│   └── Screws/
+│
+├── Assembly/
+│   └── Robot_Dog_V2_Assembly.step
+│
+└── Images/
+    ├── final_assembly.png
+    └── exploded_view_attempt.png
 ```
+
+---
+
+# Conclusion
+
+Mission 5 included both the documentation of a future larger robotic dog and the mechanical assembly of the current V2 robot.
+
+The current V2 robotic dog was successfully assembled in Onshape using:
+
+* `BodyV2`
+* `BodyCoverV2`
+* Four legs
+* Four SG90 servo motors
+* Servo horns
+* Servo screws
+* Mechanical fasteners
+
+The proposed future version expands the concept by using stronger actuators, additional degrees of freedom, better power management, sensors, and balance and walking algorithms.
+
+The complete mechanical assembly was successfully created.
+
+The Exploded View was attempted but could not be completed correctly and remains an area for future improvement.
+
+---
+
+## References
+
+* Tower Pro — SG90 Micro Servo official specifications.
+* Onshape Help — Assembly Mates.
+* Onshape Help — Fastened Mate.
+* Onshape Help — Revolute Mate.
+* Onshape Help — Exploded Views.
